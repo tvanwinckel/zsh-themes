@@ -70,6 +70,11 @@ common_git_status() {
         message+="${message_color}${branch}%f"
     fi
 
+    if $(echo "$(git log origin/$(git_current_branch)..HEAD 2> /dev/null)" | grep '^commit' &> /dev/null); then
+        message+=" "$(git rev-list origin/$(git_current_branch)..$(git_current_branch) --count)"|"$(git rev-list $(git_current_branch)..origin/$(git_current_branch) --count)
+    fi
+
+
     echo -n "${message}"
 }
 
